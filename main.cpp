@@ -256,14 +256,11 @@ void dfsRconComps(Graph G, vertice v, int id, int *visitados)
 {
     visitados[v] = id;
 
-    for (vertice v = 0; v < G->V; ++v)
+    for (vertice a = 0; a < G->V; ++a)
     {
-        for (vertice w = 0; w < G->V; ++w)
+        if (G->adj[v][a] >= 1 && visitados[a] == -1)
         {
-            if (G->adj[v][w] >= 1 && visitados[w] == -1)
-            {
-                dfsRconComps(G, w, id, visitados);
-            }
+            dfsRconComps(G, a, id, visitados);
         }
     }
 }
@@ -275,15 +272,12 @@ void numeroComponentes(Graph G)
     int visitados[G->V];
     for (vertice v = 0; v < G->V; ++v)
         visitados[v] = -1;
+
     for (vertice v = 0; v < G->V; ++v)
     {
-        for (vertice w = 0; w < G->V; ++w)
+        if (visitados[v] == -1)
         {
-            if (visitados[v] == -1)
-            {
-                count++;
-                dfsRconComps(G, v, count++, visitados);
-            }
+            dfsRconComps(G, v, count++, visitados);
         }
     }
     printf("\n\n A quantidade de componentes no grafo é %d!\n\n", count);
@@ -297,17 +291,11 @@ Graph gerarGrafoCompleto(int qtdVertices)
 
 Graph gerarGrafoParaComponentes()
 {
-    Graph G = iniciarGrafo(7);
-    inserirAresta(G, 1, 2);
-    inserirAresta(G, 2, 1);
-    inserirAresta(G, 3, 4);
-    inserirAresta(G, 4, 3);
-    inserirAresta(G, 4, 5);
-    inserirAresta(G, 5, 4);
-    inserirAresta(G, 5, 6);
-    inserirAresta(G, 6, 5);
-    inserirAresta(G, 6, 3);
-    inserirAresta(G, 3, 6);
+    Graph G = iniciarGrafo(4);
+    inserirAresta(G, 0, 1);
+    inserirAresta(G, 1, 0);
+    inserirAresta(G, 2, 3);
+    inserirAresta(G, 3, 2);
     return G;
 }
 
@@ -544,32 +532,33 @@ int main()
     // Exemplos de grafos completos
     // Graph G = gerarGrafoAleatorio(2, 2);
     // Graph G = gerarGrafoAleatorio(1, 0);
-    // Graph G = gerarGrafoAleatorio(3, 6);
-
-    //Graph G = gerarGrafoAleatorio(5, 2); // Constroi um grafo aleatorio de 5 vertices e com 4 arestas.
-    //Graph G = gerarGrafoParaComponentes();
+    //Graph G = gerarGrafoAleatorio(4, 3);
+    // Graph G = gerarGrafoCompleto(4);
+    //Graph G = gerarGrafoAleatorio(5, 4); // Constroi um grafo aleatorio de 5 vertices e com 4 arestas.
+    Graph G = gerarGrafoParaComponentes();
     //Graph G = gerarGrafoHamilton();
-    Graph G = gerarGrafoEuleriano();
+    //  Graph G = gerarGrafoEuleriano();
 
-    // imprimirGrafo(G);
+    imprimirGrafo(G);
     //grafoCompleto(G);
 
-    // Se o grafo não for completo, ele irá completar
+    // // Se o grafo não for completo, ele irá completar
     //G = completarGrafo(G);
     //grafoCompleto(G);
-    imprimirGrafo(G);
+    // printf("\n\nGrafo completo: \n\n");
+    //  imprimirGrafo(G);
 
     // Busca em largura a partir do vertice 3
-    //buscaEmLargura(G, 3);
+    // buscaEmLargura(G, 0);
 
     // int visitado[G->V];
     // for (vertice v = 0; v < G->V; ++v)
     //     visitado[v] = -1;
     // printf("\n\n Caminho em profundidade: ");
-    // Busca em profundidade a partir do vertice 3
-    //buscaEmProfundidade(G, 3, visitado);
+    // //Busca em profundidade a partir do vertice 3
+    // buscaEmProfundidade(G, 0, visitado);
 
-    //numeroComponentes(G);
+    numeroComponentes(G);
     //grafoHamiltoniano(G);
     // Um grafo G é dito unicursal se ele possuir um percurso aberto de Euler
     // if (checarSeEEuleriano(G))
@@ -583,10 +572,10 @@ int main()
     // {
     //     printf("\nO grafo não é euleriano, portanto não é unicursal\n");
     // }
-    edge mst[10000];
-    int tam = 0;
-    gerarArvoreGeradora(G, mst, tam);
-    imprimirArvore(mst, tam);
+    // edge mst[10000];
+    // int tam = 0;
+    // gerarArvoreGeradora(G, mst, tam);
+    // imprimirArvore(mst, tam);
 
     free(G);
 

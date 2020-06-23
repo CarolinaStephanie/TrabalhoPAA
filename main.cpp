@@ -74,6 +74,15 @@ void inserirAresta(Graph G, vertice v, vertice w)
     }
 }
 
+void inserirArestaVal(Graph G, vertice v, vertice w, int val)
+{
+    if (G->adj[v][w] == 0)
+    {
+        G->adj[v][w] = val;
+        G->A++;
+    }
+}
+
 void removerAresta(Graph G, vertice v, vertice w)
 {
     if (G->adj[v][w] >= 1)
